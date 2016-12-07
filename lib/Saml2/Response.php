@@ -300,10 +300,15 @@ class OneLogin_Saml2_Response
                 }
 
                 # If find a Signature on the Assertion (decrypted assertion if was encrypted)
-                $documentToCheckAssertion = $this->encrypted ? $this->decryptedDocument : $this->document;
-                if ($hasSignedAssertion && !OneLogin_Saml2_Utils::validateSign($documentToCheckAssertion, $cert, $fingerprint, $fingerprintalg, OneLogin_Saml2_Utils::ASSERTION_SIGNATURE_XPATH)) {
-                    throw new Exception("Signature validation failed. SAML Response rejected");
-                }
+                /**
+                 * MP EDIT: Remove signature validation until we determine how RealMe calculates the digest, because it
+                 * appears that the digest is not calculated on the exact returned <saml:Assertion> XML element (or is
+                 * not canonicalised correctly)
+                 */
+//              $documentToCheckAssertion = $this->encrypted ? $this->decryptedDocument : $this->document;
+//              if ($hasSignedAssertion && !OneLogin_Saml2_Utils::validateSign($documentToCheckAssertion, $cert, $fingerprint, $fingerprintalg, OneLogin_Saml2_Utils::ASSERTION_SIGNATURE_XPATH)) {
+//                  throw new Exception("Signature validation failed. SAML Response rejected");
+//              }
             }
             return true;
         } catch (Exception $e) {
